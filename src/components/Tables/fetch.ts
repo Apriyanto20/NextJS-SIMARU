@@ -178,20 +178,19 @@ export type Booking = {
   room:Room;
 };
 
-export const getBookingsData = async (token: string): Promise<Booking[]> => {
+export const getBookingData = async (token: string): Promise<Booking[]> => {
   try {
-    const response = await fetch("https://simaru.amisbudi.cloud/api/bookings", {
-      method: "GET",
+    const res = await fetch("https://simaru.amisbudi.cloud/api/bookings", {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     });
-    const json = await response.json();
+  
+    const json = await res.json();
     return Array.isArray(json.data) ? json.data : [];
   } catch (error) {
-    console.error("Error fetching bookings:", error);
+    console.error("Fetch booking failed:", error);
     return [];
   }
-};
+}

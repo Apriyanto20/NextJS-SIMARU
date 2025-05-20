@@ -9,15 +9,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { getBookingsData, Booking, } from "../fetch";
-
+import { getBookingData, Booking, } from "../fetch";
 export function BookingTables() {
     const [data, setData] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) return;
-        getBookingsData(token)
+        getBookingData(token)
             .then((res) => {
                 setData(res);
                 console.log(res);
@@ -49,7 +48,6 @@ export function BookingTables() {
                             <TableRow key={item.id} className="text-base font-medium text-dark dark:text-white">
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{item.bookingDate}</TableCell>
-                                <TableCell>{item.room.id}</TableCell>
                                 <TableCell>{item.room.name}</TableCell>
                             </TableRow>
                         ))
