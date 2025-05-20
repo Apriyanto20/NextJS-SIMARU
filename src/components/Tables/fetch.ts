@@ -151,6 +151,7 @@ export type Room = {
   price: number;
   capacity: number;
   description: string;
+  category:Category;
 };
 
 export const getRoomsData = async (token: string): Promise<Room[]> => {

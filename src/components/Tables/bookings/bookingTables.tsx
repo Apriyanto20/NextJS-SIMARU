@@ -10,9 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getBookingData, Booking } from "../fetch";
+import { useBookingModalUpdate } from "@/components/Modal/booking/BookingModalContexUpdate";
 export function BookingTables() {
   const [data, setData] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const { openModalUpdate } = useBookingModalUpdate();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -59,6 +61,17 @@ export function BookingTables() {
     }
   };
 
+  const handleUpdate = async (id: number) => {
+    console.log("Preview clicked", id);
+    const booking = data.find((item) => item.id === id);
+    if (booking) {
+      console.log("Booking found:", booking);
+      openModalUpdate(booking);
+    } else {
+      console.log("Booking not found");
+    }
+  };
+
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
       <div className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5">
@@ -87,13 +100,21 @@ export function BookingTables() {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{item.bookingDate}</TableCell>
                 <TableCell>{item.room.name}</TableCell>
-                <TableCell>
+                <TableCell className="flex gap-2">
                   <button
                     className="hover:text-primary"
                     onClick={() => handleDelete(item.id)}
                   >
                     <span className="sr-only">Delete</span>
                     Delete
+                  </button>
+
+                  <button
+                    className="hover:text-primary"
+                    onClick={() => handleUpdate(item.id)}
+                  >
+                    <span className="sr-only">Update Room</span>
+                    Update
                   </button>
                 </TableCell>
               </TableRow>

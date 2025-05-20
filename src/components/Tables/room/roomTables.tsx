@@ -9,10 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getRoomsData, Room } from "../fetch"; // Pastikan fungsi dan tipe ini tersedia
+import { getRoomsData, Room } from "../fetch";
+import { useRoomModalUpdate } from "@/components/Modal/room/RoomModalContexUpdate";
+
 export function RoomTables() {
   const [data, setData] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+  const { openModalUpdate } = useRoomModalUpdate();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -59,6 +63,17 @@ export function RoomTables() {
     }
   };
 
+  const handleUpdate = async (id: number) => {
+    console.log("Preview clicked", id);
+    const room = data.find((item) => item.id === id);
+    if (room) {
+      console.log("Room found:", room);
+      openModalUpdate(room);
+    } else {
+      console.log("Room not found");
+    }
+  };
+
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
       <div className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5">
@@ -93,13 +108,20 @@ export function RoomTables() {
                 <TableCell>{item.price}</TableCell>
                 <TableCell>{item.capacity}</TableCell>
                 <TableCell>{item.description}</TableCell>
-                <TableCell>
+                <TableCell className="flex gap-2">
                   <button
                     className="hover:text-primary"
                     onClick={() => handleDelete(item.id)}
                   >
                     <span className="sr-only">Delete</span>
                     Delete
+                  </button>
+
+                  <button className="hover:text-primary"
+                    onClick={() => handleUpdate(item.id)}
+                  >
+                    <span className="sr-only">Update Room</span>
+                    Update
                   </button>
                 </TableCell>
               </TableRow>
