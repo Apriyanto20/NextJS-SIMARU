@@ -6,6 +6,7 @@ import { BookingAdd } from "../../components/Modal/booking/BookingAdd";
 import { BookingModalProvider } from "@/components/Modal/booking/BookingModalContex";
 import { BookingModalProviderUpdate } from "../../components/Modal/booking/BookingModalContexUpdate";
 import { BookingUpdateModal } from "../../components/Modal/booking/booking-update-modal";
+import { BookingViewModal } from "@/components/Modal/booking/booking-view-modal";
 
 export const metadata: Metadata = {
   title: "Tables",
@@ -19,6 +20,7 @@ const TablesPage = () => {
           <Breadcrumb pageName="Bookings" />
           <BookingAdd />
           <BookingUpdateModal />
+          <BookingViewModal/>
           <div className="space-y-10">
             <BookingTables />
           </div>

@@ -11,10 +11,14 @@ import {
 } from "@/components/ui/table";
 import { getBookingData, Booking } from "../fetch";
 import { useBookingModalUpdate } from "@/components/Modal/booking/BookingModalContexUpdate";
+import { useBookingModal } from "@/components/Modal/booking/BookingModalContex";
+
 export function BookingTables() {
   const [data, setData] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const { openModalUpdate } = useBookingModalUpdate();
+  const { openModal } = useBookingModal();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -72,6 +76,17 @@ export function BookingTables() {
     }
   };
 
+  const handlePreview = async (id: number) => {
+    console.log("Preview clicked", id);
+    const room = data.find((item) => item.id === id);
+    if (room) {
+      console.log("Room found:", room);
+      openModal(room);
+    } else {
+      console.log("Room not found");
+    }
+  };
+
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
       <div className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5">
@@ -115,6 +130,14 @@ export function BookingTables() {
                   >
                     <span className="sr-only">Update Room</span>
                     Update
+                  </button>
+
+                  <button
+                    className="hover:text-primary"
+                    onClick={() => handlePreview(item.id)}
+                  >
+                    <span className="sr-only">View Room</span>
+                    View
                   </button>
                 </TableCell>
               </TableRow>

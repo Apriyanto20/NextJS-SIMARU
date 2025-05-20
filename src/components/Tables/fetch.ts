@@ -174,9 +174,14 @@ export const getRoomsData = async (token: string): Promise<Room[]> => {
 
 export type Booking = {
   id: number;
-  bookingDate: string;
   roomId: number;
-  room:Room;
+  userId: number;
+  startDate: string;    
+  endDate: string;     
+  bookingDate: string; 
+  startTime: string; 
+  endTime: string; 
+  room: Room;
 };
 
 export const getBookingData = async (token: string): Promise<Booking[]> => {
